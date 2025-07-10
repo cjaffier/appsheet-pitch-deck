@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppSheet Solution Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .slide-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slide:nth-child(even) {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #f8f9fa;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .slide p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .slide ul {
+            list-style: none;
+            max-width: 600px;
+            margin: 1rem 0;
+        }
+
+        .slide li {
+            font-size: 1.1rem;
+            margin: 0.8rem 0;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            border-left: 4px solid #fff;
+            animation: slideInLeft 0.8s ease-out calc(0.6s + var(--delay, 0s)) both;
+        }
+
+        .slide li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            max-width: 1000px;
+        }
+
+        .roi-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .roi-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .roi-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .highlight {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .slide h1 {
+                font-size: 2rem;
+            }
+            .slide h2 {
+                font-size: 1.8rem;
+            }
+            .slide p {
+                font-size: 1rem;
+            }
+            .roi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container" id="slideContainer">
+        <!-- Slide 1: Title -->
+        <div class="slide">
+            <div class="slide-number">1/9</div>
+            <h1>Digital Dispatch & Operations App</h1>
+            <h2>for Transportation Teams</h2>
+            <p>Streamlining operations with mobile-first technology</p>
+            <p><strong>Prepared for:</strong> Transportation Operations Stakeholders</p>
+            <p><strong>Date:</strong> July 10, 2025</p>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide">
+            <div class="slide-number">2/9</div>
+            <h2>Current Challenges</h2>
+            <ul>
+                <li style="--delay: 0s">Manual paper logs and spreadsheets</li>
+                <li style="--delay: 0.1s">Lost time on check-ins and handoffs</li>
+                <li style="--delay: 0.2s">Inconsistent data entry</li>
+                <li style="--delay: 0.3s">Delayed incident reporting</li>
+                <li style="--delay: 0.4s">Difficulty tracking driver training</li>
+                <li style="--delay: 0.5s">No real-time visibility into operations</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide">
+            <div class="slide-number">3/9</div>
+            <h2>Our Solution</h2>
+            <p>A custom <span class="highlight">AppSheet mobile application</span> that digitizes and centralizes all transportation operations</p>
+            <ul>
+                <li style="--delay: 0s">Mobile-first design for field staff</li>
+                <li style="--delay: 0.1s">Real-time data synchronization</li>
+                <li style="--delay: 0.2s">Automated workflows and notifications</li>
+                <li style="--delay: 0.3s">Cloud-based accessibility</li>
+                <li style="--delay: 0.4s">User role-based permissions</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Features -->
+        <div class="slide">
+            <div class="slide-number">4/9</div>
+            <h2>App Features</h2>
+            <ul>
+                <li style="--delay: 0s">📋 Route and vehicle assignment logging</li>
+                <li style="--delay: 0.1s">⏱️ Attendance and clock-in/out tracking</li>
+                <li style="--delay: 0.2s">👀 Monitoring checklists and evaluator notes</li>
+                <li style="--delay: 0.3s">🎓 Training certification tracking</li>
+                <li style="--delay: 0.4s">📊 Real-time dashboards and data filters</li>
+                <li style="--delay: 0.5s">🔔 Workflow automations (e.g., late driver alerts)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Benefits -->
+        <div class="slide">
+            <div class="slide-number">5/9</div>
+            <h2>Key Benefits</h2>
+            <ul>
+                <li style="--delay: 0s">📱 Mobile access for field staff</li>
+                <li style="--delay: 0.1s">🚀 Reduced paperwork and errors</li>
+                <li style="--delay: 0.2s">👥 Improved coordination between teams</li>
+                <li style="--delay: 0.3s">📂 Centralized records for accountability</li>
+                <li style="--delay: 0.4s">📈 Scalable for growth and expansion</li>
+                <li style="--delay: 0.5s">⚡ Faster decision-making</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: ROI -->
+        <div class="slide">
+            <div class="slide-number">6/9</div>
+            <h2>Return on Investment</h2>
+            <div class="roi-grid">
+                <div class="roi-card">
+                    <div class="roi-number">375%</div>
+                    <div>Expected ROI</div>
+                </div>
+                <div class="roi-card">
+                    <div class="roi-number">$9,000</div>
+                    <div>Annual Savings</div>
+                </div>
+                <div class="roi-card">
+                    <div class="roi-number">$2,400</div>
+                    <div>Annual App Cost</div>
+                </div>
+                <div class="roi-card">
+                    <div class="roi-number">25+ hrs</div>
+                    <div>Time Saved/Month</div>
+                </div>
+            </div>
+            <p><strong>Core Plan:</strong> $10/user/month for 20 users</p>
+        </div>
+
+        <!-- Slide 7: Pilot Plan -->
+        <div class="slide">
+            <div class="slide-number">7/9</div>
+            <h2>Pilot Implementation</h2>
+            <ul>
+                <li style="--delay: 0s">Start with one hub or department</li>
+                <li style="--delay: 0.1s">2-week trial period</li>
+                <li style="--delay: 0.2s">Gather user feedback and metrics</li>
+                <li style="--delay: 0.3s">Measure actual time savings</li>
+                <li style="--delay: 0.4s">Refine app based on results</li>
+                <li style="--delay: 0.5s">Scale to full organization</li>
+            </ul>
+        </div>
+
+        <!-- Slide 8: Next Steps -->
+        <div class="slide">
+            <div class="slide-number">8/9</div>
+            <h2>Next Steps</h2>
+            <ul>
+                <li style="--delay: 0s">Upload cleaned data to Google Drive</li>
+                <li style="--delay: 0.1s">Build and test app in AppSheet</li>
+                <li style="--delay: 0.2s">Define user roles and permissions</li>
+                <li style="--delay: 0.3s">Conduct pilot with selected team</li>
+                <li style="--delay: 0.4s">Evaluate results and adjust</li>
+                <li style="--delay: 0.5s">Deploy organization-wide</li>
+            </ul>
+        </div>
+
+        <!-- Slide 9: Contact -->
+        <div class="slide">
+            <div class="slide-number">9/9</div>
+            <h2>Let's Get Started</h2>
+            <p>Ready to transform your transportation operations?</p>
+            <p>Contact us to begin your digital transformation journey.</p>
+            <a href="#" class="cta-button">Start Your Pilot Today</a>
+            <p style="margin-top: 2rem; font-size: 1rem; opacity: 0.8;">
+                Questions? Let's discuss your specific needs and customize the solution for your team.
+            </p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"></div>
+        <div class="nav-dot" onclick="goToSlide(8)"></div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const slideContainer = document.getElementById('slideContainer');
+
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            slideContainer.scrollTo({
+                left: slideIndex * window.innerWidth,
+                behavior: 'smooth'
+            });
+            
+            // Update navigation dots
+            navDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === slideIndex);
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                goToSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        });
+
+        // Update current slide on scroll
+        slideContainer.addEventListener('scroll', () => {
+            const scrollLeft = slideContainer.scrollLeft;
+            const slideWidth = window.innerWidth;
+            const newSlide = Math.round(scrollLeft / slideWidth);
+            
+            if (newSlide !== currentSlide) {
+                currentSlide = newSlide;
+                navDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+        });
+
+        // Instructions for users
+        console.log('Navigation: Use arrow keys or click dots to navigate slides');
+    </script>
+</body>
+</html>
